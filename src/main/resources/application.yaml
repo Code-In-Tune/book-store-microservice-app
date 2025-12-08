@@ -1,3 +1,22 @@
 spring:
   application:
     name: bookstore
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bookstore
+    username: bookstore
+    password: bookstore
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: false
+
+  sql:
+    init:
+      mode: never
+
