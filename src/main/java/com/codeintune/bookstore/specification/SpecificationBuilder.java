@@ -1,10 +1,17 @@
 package com.codeintune.bookstore.specification;
 
-import com.codeintune.bookstore.dto.filter.SearchBookRecordsDTO;
 import lombok.NonNull;
 import org.springframework.data.jpa.domain.Specification;
 
+/**
+ * This builder is used to provide a common interface to Specifications which
+ * allows their construction through a parametrized request
+ *
+ * @param <T> The filter request which is used to build up the specification
+ * @param <E> The entity on which the Specification is build from
+ * @author Nicola Rossi
+ */
 public interface SpecificationBuilder<@NonNull T, @NonNull E> {
 
-    Specification<@NonNull E> build(SearchBookRecordsDTO filter);
+    Specification<@NonNull E> build(T filter);
 }
