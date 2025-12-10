@@ -1,7 +1,11 @@
 package com.codeintune.bookstore.model.sale;
 
+import com.codeintune.bookstore.model.book.BookRecord;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -26,4 +30,7 @@ public class BookSale {
     private Instant dateSold;
     @Column(name = "amount", nullable = false, scale = 2, precision = 12)
     private BigDecimal amount;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "book_id", nullable = false)
+    private BookRecord bookRecord;
 }
