@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum Availability {
 
     IN_STOCK("In stock"),
-    OUT_STOCK("Out stock");
+    OUT_OF_STOCK("Out of stock");
 
     private final String description;
 

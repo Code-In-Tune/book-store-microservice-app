@@ -20,6 +20,6 @@ public class AvailabilityAttributeConverter implements AttributeConverter<Availa
         if(s == null){
             return null;
         }
-        return s ? Availability.IN_STOCK : Availability.OUT_STOCK;
+        return s ? Availability.IN_STOCK : Availability.OUT_OF_STOCK;
     }
 }
