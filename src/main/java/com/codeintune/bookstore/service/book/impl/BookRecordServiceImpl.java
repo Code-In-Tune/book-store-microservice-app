@@ -85,27 +85,7 @@ public class BookRecordServiceImpl implements BookRecordService {
     }
 
     @Override
-    public GetBookRecordsResponseDTO getBookRecordsByAuthor(PageRequest pageRequest, SearchBookRecordsDTO searchBookRecordsDTO) {
-        Specification<@NonNull BookRecord> specification = specificationBuilders.stream().map(sb -> sb.build(searchBookRecordsDTO))
-                .reduce(Specification::and).orElse(Specification.unrestricted());
-        List<GetBookRecordByIdResponseDTO> books = bookRecordRepository.findAll(specification,pageRequest).map(bookRecordMapper::toGetBookDtoResponse).toList();
-        GetBookRecordsResponseDTO getBookRecordsResponseDTO = new GetBookRecordsResponseDTO();
-        getBookRecordsResponseDTO.setBookRecords(books);
-        return getBookRecordsResponseDTO;
-    }
-
-    @Override
-    public GetBookRecordsResponseDTO getBookRecordsByTitle(PageRequest pageRequest, SearchBookRecordsDTO searchBookRecordsDTO) {
-        Specification<@NonNull BookRecord> specification = specificationBuilders.stream().map(sb -> sb.build(searchBookRecordsDTO))
-                .reduce(Specification::and).orElse(Specification.unrestricted());
-        List<GetBookRecordByIdResponseDTO> books = bookRecordRepository.findAll(specification,pageRequest).map(bookRecordMapper::toGetBookDtoResponse).toList();
-        GetBookRecordsResponseDTO getBookRecordsResponseDTO = new GetBookRecordsResponseDTO();
-        getBookRecordsResponseDTO.setBookRecords(books);
-        return getBookRecordsResponseDTO;
-    }
-
-    @Override
-    public GetBookRecordsResponseDTO getBookRecordsByPublisher(PageRequest pageRequest, SearchBookRecordsDTO searchBookRecordsDTO) {
+    public GetBookRecordsResponseDTO getBookRecordsByFilter(PageRequest pageRequest, SearchBookRecordsDTO searchBookRecordsDTO) {
         Specification<@NonNull BookRecord> specification = specificationBuilders.stream().map(sb -> sb.build(searchBookRecordsDTO))
                 .reduce(Specification::and).orElse(Specification.unrestricted());
         List<GetBookRecordByIdResponseDTO> books = bookRecordRepository.findAll(specification,pageRequest).map(bookRecordMapper::toGetBookDtoResponse).toList();

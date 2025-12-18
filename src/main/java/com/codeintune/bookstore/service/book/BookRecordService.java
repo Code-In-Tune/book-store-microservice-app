@@ -18,7 +18,5 @@ public interface BookRecordService {
     UpdateBookRecordByIdResponseDTO updateBookRecordQuantity(UpdateBookRecordQuantityRequestDTO updateBookRecordQuantityRequestDTO);
     void removeBookRecordById(Long bookId);
     GetBookRecordsResponseDTO getAllBookRecords(PageRequest pageRequest);
-    GetBookRecordsResponseDTO getBookRecordsByAuthor(PageRequest pageRequest, SearchBookRecordsDTO searchBookRecordsDTO);
-    GetBookRecordsResponseDTO getBookRecordsByTitle(PageRequest pageRequest, SearchBookRecordsDTO title);
-    GetBookRecordsResponseDTO getBookRecordsByPublisher(PageRequest pageRequest, SearchBookRecordsDTO searchBookRecordsDTO);
+    GetBookRecordsResponseDTO getBookRecordsByFilter(PageRequest pageRequest, SearchBookRecordsDTO searchBookRecordsDTO);
 }
