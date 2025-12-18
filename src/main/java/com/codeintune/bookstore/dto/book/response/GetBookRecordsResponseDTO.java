@@ -8,4 +8,9 @@ import java.util.List;
 public class GetBookRecordsResponseDTO {
 
     private List<GetBookRecordByIdResponseDTO> bookRecords;
+    private Integer pageNumber;
+    private Integer pageSize;
+    private Integer totalPages;
+    private Boolean hasNext;
+    private Boolean hasPrevious;
 }
