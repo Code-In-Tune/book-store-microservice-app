@@ -46,7 +46,8 @@ public class BookSaleServiceImpl implements BookSaleService {
 
         if(record.getQuantity() < quantitySold) {
             throw new BookSaleDomainException(HttpStatus.CONFLICT,
-                    BookSaleDomainExceptionConstants.CANNOT_SELL_GIVEN_QUANTITY);
+                    BookSaleDomainExceptionConstants.CANNOT_SELL_GIVEN_QUANTITY
+                            .formatted(quantitySold, record.getQuantity()));
         }
         record.setQuantity(record.getQuantity() - quantitySold);
         if(record.getQuantity() == 0){
