@@ -1,4 +1,9 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/book-store-realm
   data:
     web:
       pageable:
@@ -24,4 +29,5 @@ spring:
   sql:
     init:
       mode: never
-
+server:
+  port: 8081

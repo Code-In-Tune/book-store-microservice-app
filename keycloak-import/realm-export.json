@@ -1,0 +1,79 @@
+{
+  "realm": "book-store-realm",
+  "enabled": true,
+
+  "roles": {
+    "realm": [
+      {
+        "name": "ADMINISTRATOR",
+        "description": "Administrator role"
+      },
+      {
+        "name": "VIEWER",
+        "description": "Read-only viewer role"
+      }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "spring-app",
+      "name": "Spring App",
+      "enabled": true,
+
+      "protocol": "openid-connect",
+      "publicClient": true,
+
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+
+      "redirectUris": [
+        "http://localhost:8081/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8081"
+      ]
+    }
+  ],
+
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "User",
+      "email": "admin@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ADMINISTRATOR"
+      ]
+    },
+    {
+      "username": "user",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Normal",
+      "lastName": "User",
+      "email": "user@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "user",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "VIEWER"
+      ]
+    }
+  ]
+}

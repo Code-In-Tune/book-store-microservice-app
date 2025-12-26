@@ -8,6 +8,7 @@ import com.codeintune.bookstore.dto.book.response.SaveBookRecordResponseDTO;
 import com.codeintune.bookstore.dto.book.response.UpdateBookRecordByIdResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
@@ -21,6 +22,7 @@ public interface BookRecordController {
             produces = APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     SaveBookRecordResponseDTO saveBookRecord(
             @RequestBody @Valid SaveBookRecordRequestDTO saveBookRecordRequestDTO
     );
@@ -30,6 +32,7 @@ public interface BookRecordController {
             produces = APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'VIEWER')")
     GetBookRecordByIdResponseDTO getBookRecordById(
             @PathVariable(name = "bookId") Long bookId
     );
@@ -39,6 +42,7 @@ public interface BookRecordController {
             produces = APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     UpdateBookRecordByIdResponseDTO updateBookRecordById(
             @RequestBody @Valid UpdateBookRecordByIdRequestDTO updateBookRecordByIdRequestDTO
     );
@@ -48,6 +52,7 @@ public interface BookRecordController {
             produces = APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     UpdateBookRecordByIdResponseDTO updateBookRecordQuantity(
             @RequestBody @Valid UpdateBookRecordQuantityRequestDTO updateBookRecordQuantityRequestDTO
     );
@@ -55,6 +60,7 @@ public interface BookRecordController {
             value = ID_PATH
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     void deleteBookRecordById(@PathVariable(name = "bookId") Long bookId);
 
 }

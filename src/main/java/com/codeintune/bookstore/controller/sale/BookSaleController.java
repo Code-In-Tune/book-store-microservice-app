@@ -4,6 +4,7 @@ import com.codeintune.bookstore.dto.sale.request.SaveBookSaleRequestDTO;
 import com.codeintune.bookstore.dto.sale.response.SaveBookSaleResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,5 +17,6 @@ public interface BookSaleController {
             produces = MimeTypeUtils.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     SaveBookSaleResponseDTO save(@RequestBody @Valid SaveBookSaleRequestDTO saveBookSaleRequestDTO);
 }
