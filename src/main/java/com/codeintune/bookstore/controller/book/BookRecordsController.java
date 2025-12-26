@@ -34,7 +34,7 @@ public interface BookRecordsController {
                     examples = @ExampleObject(
                             name = "Ok",
                             value = "[{" +
-                                    "\"id\": 1" +
+                                    "\"bookId\": 1" +
                                     "\"title\":\"Alice In Wonderland\"," +
                                     "\"author\":\"Lewis Carroll\"," +
                                     "\"price\": 10.99," +
@@ -79,7 +79,7 @@ public interface BookRecordsController {
     )
     @Parameters({
             @Parameter(name="pageSize", description = "Size of the page returned"),
-            @Parameter(name ="pageNumber", description = "Page number returned")
+            @Parameter(name="pageNumber", description = "Page number returned")
     })
     @PostMapping(
             consumes = APPLICATION_JSON_VALUE,

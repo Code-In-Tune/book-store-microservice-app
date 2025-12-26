@@ -21,6 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -56,8 +58,9 @@ public class BookSaleServiceImpl implements BookSaleService {
         BookSale entityToSave = new BookSale();
         entityToSave.setBookId(bookId);
         entityToSave.setQuantity(quantitySold);
-        entityToSave.setAmount(saveBookSaleRequestDTO.getAmount());
-        bookSaleMapper.toSaveBookSaleDtoResponse(entityToSave);
+        entityToSave.setAmount(record.getPrice().multiply(BigDecimal.valueOf(quantitySold)));
+        entityToSave.setDateSold(Instant.now());
+        bookSaleRepository.save(entityToSave);
         return bookSaleMapper.toSaveBookSaleDtoResponse(entityToSave);
     }
 

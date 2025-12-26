@@ -1,6 +1,6 @@
 CREATE TABLE book_record
 (
-    book_id BIGINT NOT NULL,
+    book_id BIGSERIAL NOT NULL,
     title   VARCHAR(255) NOT NULL,
     author  VARCHAR(255) NOT NULL,
     price   NUMERIC(10,2) NOT NULL,

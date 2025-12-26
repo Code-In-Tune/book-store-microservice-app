@@ -36,7 +36,7 @@ public interface BookRecordController {
                     examples = @ExampleObject(
                             name = "Created",
                             value = "{" +
-                                    "\"id\": 1" +
+                                    "\"bookId\": 1" +
                                     "\"title\":\"Alice In Wonderland\"," +
                                     "\"author\":\"Lewis Carroll\"," +
                                     "\"price\": 10.99," +
@@ -65,7 +65,7 @@ public interface BookRecordController {
                     examples = @ExampleObject(
                             name = "Ok",
                             value = "{" +
-                                    "\"id\": 1" +
+                                    "\"bookId\": 1" +
                                     "\"title\":\"Alice In Wonderland\"," +
                                     "\"author\":\"Lewis Carroll\"," +
                                     "\"price\": 10.99," +
@@ -95,7 +95,7 @@ public interface BookRecordController {
                     examples = @ExampleObject(
                             name = "Ok",
                             value = "{" +
-                                    "\"id\": 1" +
+                                    "\"bookId\": 1" +
                                     "\"title\":\"Alice In Wonderland\"," +
                                     "\"author\":\"Lewis Carroll\"," +
                                     "\"price\": 10.99," +
@@ -124,7 +124,7 @@ public interface BookRecordController {
                     examples = @ExampleObject(
                             name = "Ok",
                             value = "{" +
-                                    "\"id\": 1" +
+                                    "\"bookId\": 1" +
                                     "\"title\":\"Alice In Wonderland\"," +
                                     "\"author\":\"Lewis Carroll\"," +
                                     "\"price\": 10.99," +
