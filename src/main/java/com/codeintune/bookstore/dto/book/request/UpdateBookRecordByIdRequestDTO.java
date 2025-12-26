@@ -1,9 +1,6 @@
 package com.codeintune.bookstore.dto.book.request;
 
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -19,6 +16,9 @@ public class UpdateBookRecordByIdRequestDTO {
     private String author;
     @NotBlank(message = "{publisher.notBlank}")
     private String publisher;
+    @NotBlank(message = "{isbn.notBlank}")
+    @Pattern(regexp = "^(?:[0-9]{9}[0-9X]|97[89][0-9]{10})$", message = "{isbn.pattern}")
+    private String isbn;
     @NotNull(message = "{payment.amount.notNull}")
     @Digits(integer= 10, fraction = 2, message = "{payment.amount.digits}")
     private BigDecimal price;

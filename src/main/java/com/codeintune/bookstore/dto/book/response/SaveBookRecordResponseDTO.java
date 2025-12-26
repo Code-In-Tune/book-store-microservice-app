@@ -12,6 +12,7 @@ public class SaveBookRecordResponseDTO {
     private String title;
     private String author;
     private String publisher;
+    private String isbn;
     private BigDecimal price;
     private Integer quantity;
     private AvailabilityDTO availability;
