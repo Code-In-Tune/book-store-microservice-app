@@ -11,6 +11,7 @@ import com.codeintune.bookstore.dto.filter.SearchBookRecordsDTO;
 import com.codeintune.bookstore.exception.BookRecordDomainException;
 import com.codeintune.bookstore.mapper.BookRecordMapper;
 import com.codeintune.bookstore.model.book.BookRecord;
+import com.codeintune.bookstore.model.book.enums.Availability;
 import com.codeintune.bookstore.repository.BookRecordRepository;
 import com.codeintune.bookstore.service.book.BookRecordService;
 import com.codeintune.bookstore.specification.SpecificationBuilder;
@@ -39,6 +40,7 @@ public class BookRecordServiceImpl implements BookRecordService {
     @Transactional
     public SaveBookRecordResponseDTO saveBookRecord(SaveBookRecordRequestDTO saveBookRecordRequestDTO) {
         BookRecord entityToBeSaved = bookRecordMapper.toEntity(saveBookRecordRequestDTO);
+        entityToBeSaved.setAvailability(Availability.IN_STOCK);
         entityToBeSaved = bookRecordRepository.save(entityToBeSaved);
         return bookRecordMapper.toSaveBookDtoResponse(entityToBeSaved);
     }
