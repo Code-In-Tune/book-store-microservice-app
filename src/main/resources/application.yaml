@@ -4,6 +4,8 @@ springdoc:
   api-docs:
     path: /v3/api-docs
 spring:
+  profiles:
+    active: prod
   security:
     oauth2:
       resourceserver:

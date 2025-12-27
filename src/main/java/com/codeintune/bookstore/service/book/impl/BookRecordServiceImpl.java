@@ -19,6 +19,7 @@ import com.codeintune.bookstore.utils.constants.exception.BookRecordDomainExcept
 import com.codeintune.bookstore.utils.constants.exception.I18NConstants;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -43,12 +45,14 @@ public class BookRecordServiceImpl implements BookRecordService {
         BookRecord entityToBeSaved = bookRecordMapper.toEntity(saveBookRecordRequestDTO);
         entityToBeSaved.setAvailability(Availability.IN_STOCK);
         entityToBeSaved = bookRecordRepository.save(entityToBeSaved);
+        log.info("Book saved successfully, bookId={}", entityToBeSaved.getBookId());
         return bookRecordMapper.toSaveBookDtoResponse(entityToBeSaved);
     }
 
     @Override
     public GetBookRecordByIdResponseDTO getBookRecordById(Long bookId) {
         BookRecord entityFound = findByIdOrThrowException(bookId);
+        log.info("Book retrieved successfully, bookId={}", bookId);
         return bookRecordMapper.toGetBookDtoResponse(entityFound);
     }
 
@@ -59,6 +63,7 @@ public class BookRecordServiceImpl implements BookRecordService {
 
         bookRecordMapper.updateEntity(updateBookRecordByIdRequestDTO, entityFound);
         bookRecordRepository.save(entityFound);
+        log.info("Book updated successfully, bookId={}", entityFound.getBookId());
         return bookRecordMapper.toUpdateBookDtoResponse(entityFound);
     }
 
@@ -68,6 +73,7 @@ public class BookRecordServiceImpl implements BookRecordService {
         BookRecord entityFound = findByIdOrThrowException(updateBookRecordQuantityRequestDTO.getBookId());
         entityFound.setQuantity(entityFound.getQuantity() + updateBookRecordQuantityRequestDTO.getQuantity());
         bookRecordRepository.save(entityFound);
+        log.info("Book quantity updated successfully, bookId={}, quantity={}", entityFound.getBookId(), entityFound.getQuantity());
         return bookRecordMapper.toUpdateBookDtoResponse(entityFound);
     }
 
@@ -84,6 +90,7 @@ public class BookRecordServiceImpl implements BookRecordService {
         GetBookRecordsResponseDTO getBookRecordsResponseDTO = new GetBookRecordsResponseDTO();
         getBookRecordsResponseDTO.setBookRecords(books);
         setPageFields(page, getBookRecordsResponseDTO);
+        log.info("Books retrieved successfully, numItems={}, numPages={}", page.getSize(), page.getTotalPages());
         return getBookRecordsResponseDTO;
     }
 
@@ -96,6 +103,7 @@ public class BookRecordServiceImpl implements BookRecordService {
         GetBookRecordsResponseDTO getBookRecordsResponseDTO = new GetBookRecordsResponseDTO();
         getBookRecordsResponseDTO.setBookRecords(books);
         setPageFields(page, getBookRecordsResponseDTO);
+        log.info("Books retrieved successfully, numItems={}, numPages={}", page.getSize(), page.getTotalPages());
         return getBookRecordsResponseDTO;
     }
 

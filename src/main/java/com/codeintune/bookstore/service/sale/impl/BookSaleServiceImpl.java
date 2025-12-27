@@ -18,6 +18,7 @@ import com.codeintune.bookstore.utils.constants.exception.BookSaleDomainExceptio
 import com.codeintune.bookstore.utils.constants.exception.I18NConstants;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -67,6 +69,7 @@ public class BookSaleServiceImpl implements BookSaleService {
         entityToSave.setAmount(record.getPrice().multiply(BigDecimal.valueOf(quantitySold)));
         entityToSave.setDateSold(Instant.now());
         bookSaleRepository.save(entityToSave);
+        log.info("Sale saved successfully, saleId={}", entityToSave.getSaleId());
         return bookSaleMapper.toSaveBookSaleDtoResponse(entityToSave);
     }
 
@@ -82,6 +85,7 @@ public class BookSaleServiceImpl implements BookSaleService {
         response.setTotalPages(page.getTotalPages());
         response.setHasNext(page.hasNext());
         response.setHasPrevious(page.hasPrevious());
+        log.info("Sales retrieved successfully, numItems={}, numPages={}", page.getSize(), page.getTotalPages());
         return response;
     }
 }
