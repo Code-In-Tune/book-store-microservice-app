@@ -17,6 +17,6 @@ public class SaveBookSaleResponseDTO {
     private Integer quantity;
     @Schema(example = "10.99")
     private BigDecimal amount;
-    @Schema(example = "26/12/2025")
+    @Schema(example = "2025-12-27T12:56:39.000691700Z")
     private Instant dateSold;
 }
