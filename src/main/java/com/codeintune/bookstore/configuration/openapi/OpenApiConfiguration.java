@@ -55,4 +55,12 @@ public class OpenApiConfiguration {
                 .pathsToMatch("/sales/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi authGroupedOpenApi(){
+        return GroupedOpenApi.builder()
+                .group("Book Store - Auth Endpoint")
+                .pathsToMatch("/auth/**")
+                .build();
+    }
 }
