@@ -10,4 +10,14 @@ import java.util.List;
 public class GetBookSalesResponseDTO {
 
     private List<GetBookSaleByIdResponseDTO> bookSales;
+    @Schema(example = "1")
+    private Integer pageNumber;
+    @Schema(example = "10")
+    private Integer pageSize;
+    @Schema(example = "2")
+    private Integer totalPages;
+    @Schema(example = "true")
+    private Boolean hasNext;
+    @Schema(example = "false")
+    private Boolean hasPrevious;
 }

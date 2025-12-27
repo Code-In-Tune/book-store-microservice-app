@@ -16,6 +16,7 @@ import com.codeintune.bookstore.repository.BookRecordRepository;
 import com.codeintune.bookstore.service.book.BookRecordService;
 import com.codeintune.bookstore.specification.SpecificationBuilder;
 import com.codeintune.bookstore.utils.constants.exception.BookRecordDomainExceptionConstants;
+import com.codeintune.bookstore.utils.constants.exception.I18NConstants;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -109,7 +110,9 @@ public class BookRecordServiceImpl implements BookRecordService {
     private BookRecord findByIdOrThrowException(Long bookId) {
         return bookRecordRepository.findById(bookId).orElseThrow(
                 () -> new BookRecordDomainException(HttpStatus.NOT_FOUND,
-                        BookRecordDomainExceptionConstants.BOOK_NOT_FOUND_MESSAGE.formatted(bookId))
+                        BookRecordDomainExceptionConstants.BOOK_NOT_FOUND_MESSAGE.formatted(bookId),
+                        I18NConstants.BOOK_RECORD_NOT_FOUND_KEY,
+                        bookId)
         );
     }
 }

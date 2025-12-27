@@ -6,11 +6,14 @@ import com.codeintune.bookstore.dto.book.request.UpdateBookRecordQuantityRequest
 import com.codeintune.bookstore.dto.book.response.GetBookRecordByIdResponseDTO;
 import com.codeintune.bookstore.dto.book.response.SaveBookRecordResponseDTO;
 import com.codeintune.bookstore.dto.book.response.UpdateBookRecordByIdResponseDTO;
+import com.codeintune.bookstore.dto.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -28,25 +31,32 @@ public interface BookRecordController {
 
     String ID_PATH = "/{bookId}";
 
-    @Operation(summary = "Save Book", description = "Create new book record", security = { @SecurityRequirement(name = "bearerAuth") })
-    @ApiResponse(
-            responseCode = "201",
-            content = @Content(
-                    mediaType = "application/json",
-                    examples = @ExampleObject(
-                            name = "Created",
-                            value = "{" +
-                                    "\"bookId\": 1" +
-                                    "\"title\":\"Alice In Wonderland\"," +
-                                    "\"author\":\"Lewis Carroll\"," +
-                                    "\"price\": 10.99," +
-                                    "\"isbn\": \"9780062936615\"," +
-                                    "\"quantity\": 1," +
-                                    "\"publisher\": \"Harper\"" +
-                                    " }"
+    @Operation(summary = "Save Book", description = "Create new book record", security = {@SecurityRequirement(name = "bearerAuth")})
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SaveBookRecordResponseDTO.class),
+                            examples = @ExampleObject(
+                                    name = "Created",
+                                    description = "Returns data relative to book record created",
+                                    value = """
+                                            {
+                                            "bookId": 1,
+                                            "title": "Alice In Wonderland",
+                                            "author": "Lewis Carroll",
+                                            "price": 10.99,
+                                            "isbn": "9780062936615",
+                                            "quantity": 1,
+                                            "publisher": "Harper"
+                                            }
+                                            """
+
+                            )
                     )
             )
-    )
+    })
     @PostMapping(
             consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE
@@ -57,25 +67,49 @@ public interface BookRecordController {
             @RequestBody @Valid SaveBookRecordRequestDTO saveBookRecordRequestDTO
     );
 
-    @Operation(summary = "Get Book", description = "Obtain an existing book record", security = { @SecurityRequirement(name = "bearerAuth") })
-    @ApiResponse(
-            responseCode = "200",
-            content = @Content(
-                    mediaType = "application/json",
-                    examples = @ExampleObject(
-                            name = "Ok",
-                            value = "{" +
-                                    "\"bookId\": 1" +
-                                    "\"title\":\"Alice In Wonderland\"," +
-                                    "\"author\":\"Lewis Carroll\"," +
-                                    "\"price\": 10.99," +
-                                    "\"isbn\": \"9780062936615\"," +
-                                    "\"quantity\": 1," +
-                                    "\"publisher\": \"Harper\"" +
-                                    " }"
+    @Operation(summary = "Get Book", description = "Obtain an existing book record", security = {@SecurityRequirement(name = "bearerAuth")})
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GetBookRecordByIdResponseDTO.class),
+                            examples = @ExampleObject(
+                                    name = "Ok",
+                                    description = "Returns given book record data",
+                                    value = """
+                                            {
+                                            "bookId": 1,
+                                            "title": "Alice In Wonderland",
+                                            "author": "Lewis Carroll",
+                                            "price": 10.99,
+                                            "isbn": "9780062936615",
+                                            "quantity": 1,
+                                            "publisher": "Harper"
+                                            }
+                                            """
+                            )
                     )
-            )
-    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class),
+                            examples = @ExampleObject(
+                                    name = "NotFound",
+                                    description = "Returns an error message with given id not found",
+                                    value = """
+                                            {
+                                            "message": "Book record with id 1 not found",
+                                            "status": 404,
+                                            "timestamp": "2025-12-27T12:56:39.000691700Z"
+                                            }
+                                            """
+                            )
+                    )
+            ),
+    })
     @Parameter(name = "bookId", description = "The book id of the record", required = true, example = "1")
     @GetMapping(
             value = ID_PATH,
@@ -87,25 +121,49 @@ public interface BookRecordController {
             @PathVariable(name = "bookId") Long bookId
     );
 
-    @Operation(summary = "Update Book", description = "Update an existing book record", security = { @SecurityRequirement(name = "bearerAuth") })
-    @ApiResponse(
-            responseCode = "200",
-            content = @Content(
-                    mediaType = "application/json",
-                    examples = @ExampleObject(
-                            name = "Ok",
-                            value = "{" +
-                                    "\"bookId\": 1" +
-                                    "\"title\":\"Alice In Wonderland\"," +
-                                    "\"author\":\"Lewis Carroll\"," +
-                                    "\"price\": 10.99," +
-                                    "\"isbn\": \"9780062936615\"," +
-                                    "\"quantity\": 1," +
-                                    "\"publisher\": \"Harper\"" +
-                                    " }"
+    @Operation(summary = "Update Book", description = "Update an existing book record", security = {@SecurityRequirement(name = "bearerAuth")})
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GetBookRecordByIdResponseDTO.class),
+                            examples = @ExampleObject(
+                                    name = "Ok",
+                                    description = "Returns data relative to book record updated",
+                                    value = """
+                                            {
+                                            "bookId": 1,
+                                            "title": "Alice In Wonderland",
+                                            "author": "Lewis Carroll",
+                                            "price": 10.99,
+                                            "isbn": "9780062936615",
+                                            "quantity": 1,
+                                            "publisher": "Harper"
+                                            }
+                                            """
+                            )
                     )
-            )
-    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class),
+                            examples = @ExampleObject(
+                                    name = "NotFound",
+                                    description = "Returns an error message with given id not found",
+                                    value = """
+                                            {
+                                            "message": "Book record with id 1 not found",
+                                            "status": 404,
+                                            "timestamp": "2025-12-27T12:56:39.000691700Z"
+                                            }
+                                            """
+                            )
+                    )
+            ),
+    })
     @PutMapping(
             consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE
@@ -116,25 +174,49 @@ public interface BookRecordController {
             @RequestBody @Valid UpdateBookRecordByIdRequestDTO updateBookRecordByIdRequestDTO
     );
 
-    @Operation(summary = "Update Book By Quantity", description = "Increment book quantity on existing book record", security = { @SecurityRequirement(name = "bearerAuth") })
-    @ApiResponse(
-            responseCode = "200",
-            content = @Content(
-                    mediaType = "application/json",
-                    examples = @ExampleObject(
-                            name = "Ok",
-                            value = "{" +
-                                    "\"bookId\": 1" +
-                                    "\"title\":\"Alice In Wonderland\"," +
-                                    "\"author\":\"Lewis Carroll\"," +
-                                    "\"price\": 10.99," +
-                                    "\"isbn\": \"9780062936615\"," +
-                                    "\"quantity\": 1," +
-                                    "\"publisher\": \"Harper\"" +
-                                    " }"
+    @Operation(summary = "Update Book By Quantity", description = "Increment book quantity on existing book record", security = {@SecurityRequirement(name = "bearerAuth")})
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GetBookRecordByIdResponseDTO.class),
+                            examples = @ExampleObject(
+                                    name = "Ok",
+                                    description = "Returns data relative to book record updated",
+                                    value = """
+                                            {
+                                            "bookId": 1,
+                                            "title": "Alice In Wonderland",
+                                            "author": "Lewis Carroll",
+                                            "price": 10.99,
+                                            "isbn": "9780062936615",
+                                            "quantity": 1,
+                                            "publisher": "Harper"
+                                            }
+                                            """
+                            )
                     )
-            )
-    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class),
+                            examples = @ExampleObject(
+                                    name = "NotFound",
+                                    description = "Returns an error message with given id not found",
+                                    value = """
+                                            {
+                                            "message": "Book record with id 1 not found",
+                                            "status": 404,
+                                            "timestamp": "2025-12-27T12:56:39.000691700Z"
+                                            }
+                                            """
+                            )
+                    )
+            ),
+    })
     @PatchMapping(
             consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE
@@ -146,15 +228,16 @@ public interface BookRecordController {
     );
 
 
-    @Operation(summary = "Delete Book", description = "Remove an existing book record", security = { @SecurityRequirement(name = "bearerAuth") })
+    @Operation(summary = "Delete Book", description = "Remove an existing book record", security = {@SecurityRequirement(name = "bearerAuth")})
     @ApiResponse(
             responseCode = "204",
             content = @Content(
                     mediaType = "application/json",
                     examples = @ExampleObject(
                             name = "No Content",
-                            value = "{" +
-                                    " }"
+                            value = """
+                                    {}
+                                    """
                     )
             )
     )

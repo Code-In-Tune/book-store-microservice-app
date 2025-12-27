@@ -15,7 +15,10 @@ import com.codeintune.bookstore.repository.BookSaleRepository;
 import com.codeintune.bookstore.service.sale.BookSaleService;
 import com.codeintune.bookstore.utils.constants.exception.BookRecordDomainExceptionConstants;
 import com.codeintune.bookstore.utils.constants.exception.BookSaleDomainExceptionConstants;
+import com.codeintune.bookstore.utils.constants.exception.I18NConstants;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -43,13 +46,16 @@ public class BookSaleServiceImpl implements BookSaleService {
 
         BookRecord record = bookRecordRepository.findById(bookId).orElseThrow(
                 () -> new BookRecordDomainException(HttpStatus.NOT_FOUND,
-                        BookRecordDomainExceptionConstants.BOOK_NOT_FOUND_MESSAGE.formatted(bookId))
+                        BookRecordDomainExceptionConstants.BOOK_NOT_FOUND_MESSAGE.formatted(bookId),
+                        I18NConstants.BOOK_RECORD_NOT_FOUND_KEY,
+                        bookId)
         );
 
         if(record.getQuantity() < quantitySold) {
             throw new BookSaleDomainException(HttpStatus.CONFLICT,
                     BookSaleDomainExceptionConstants.CANNOT_SELL_GIVEN_QUANTITY
-                            .formatted(quantitySold, record.getQuantity()));
+                            .formatted(quantitySold, record.getQuantity()),
+                    I18NConstants.CANNOT_SELL_BOOK_RECORD_QUANTITY);
         }
         record.setQuantity(record.getQuantity() - quantitySold);
         if(record.getQuantity() == 0){
@@ -66,10 +72,16 @@ public class BookSaleServiceImpl implements BookSaleService {
 
     @Override
     public GetBookSalesResponseDTO getSales(PageRequest pageRequest) {
-        List<GetBookSaleByIdResponseDTO> sales = bookSaleRepository.findAll(pageRequest)
+        Page<@NonNull BookSale> page = bookSaleRepository.findAll(pageRequest);
+        List<GetBookSaleByIdResponseDTO> sales = page
                 .getContent().stream().map(bookSaleMapper::toGetBookSaleByIdDtoResponse).toList();
         GetBookSalesResponseDTO response = new GetBookSalesResponseDTO();
         response.setBookSales(sales);
+        response.setPageNumber(page.getNumber());
+        response.setPageSize(page.getSize());
+        response.setTotalPages(page.getTotalPages());
+        response.setHasNext(page.hasNext());
+        response.setHasPrevious(page.hasPrevious());
         return response;
     }
 }

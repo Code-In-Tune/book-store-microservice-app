@@ -7,12 +7,14 @@ import org.springframework.http.HttpStatus;
 public class BookRecordDomainException extends RuntimeException {
 
     private final HttpStatus  httpStatus;
+    private final String key;
+    private final Object[] arguments;
 
-    public BookRecordDomainException(HttpStatus httpStatus) {
-        this.httpStatus = httpStatus;
-    }
-    public BookRecordDomainException(HttpStatus httpStatus, String message) {
+
+    public BookRecordDomainException(HttpStatus httpStatus, String message, String key, Object... arguments) {
         super(message);
         this.httpStatus = httpStatus;
+        this.key = key;
+        this.arguments = arguments;
     }
 }
