@@ -63,13 +63,4 @@ public class UpdateBookRecordByIdRequestDTO {
     @Positive(message = "{payment.amount.positive}")
     @Digits(integer= 10, fraction = 2, message = "{payment.amount.digits}")
     private BigDecimal price;
-    @Schema(
-            name = "quantity",
-            description = "Quantity of the book record",
-            example = "2",
-            requiredMode = Schema.RequiredMode.REQUIRED
-    )
-    @NotNull(message = "{quantity.notNull}")
-    @Min(value = 1, message = "{quantity.minimum}")
-    private Integer quantity;
 }

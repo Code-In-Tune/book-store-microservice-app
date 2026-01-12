@@ -72,6 +72,7 @@ public class BookRecordServiceImpl implements BookRecordService {
     public UpdateBookRecordByIdResponseDTO updateBookRecordQuantity(UpdateBookRecordQuantityRequestDTO updateBookRecordQuantityRequestDTO) {
         BookRecord entityFound = findByIdOrThrowException(updateBookRecordQuantityRequestDTO.getBookId());
         entityFound.setQuantity(entityFound.getQuantity() + updateBookRecordQuantityRequestDTO.getQuantity());
+        entityFound.setAvailability(Availability.IN_STOCK);
         bookRecordRepository.save(entityFound);
         log.info("Book quantity updated successfully, bookId={}, quantity={}", entityFound.getBookId(), entityFound.getQuantity());
         return bookRecordMapper.toUpdateBookDtoResponse(entityFound);
