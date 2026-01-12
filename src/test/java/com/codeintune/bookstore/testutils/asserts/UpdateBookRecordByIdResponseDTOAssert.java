@@ -14,7 +14,7 @@ public class UpdateBookRecordByIdResponseDTOAssert extends AbstractAssert<Update
     }
 
     public static UpdateBookRecordByIdResponseDTOAssert assertThat(UpdateBookRecordByIdResponseDTO bookRecord) {
-        return new  UpdateBookRecordByIdResponseDTOAssert(bookRecord, UpdateBookRecordByIdResponseDTOAssert.class);
+        return new UpdateBookRecordByIdResponseDTOAssert(bookRecord, UpdateBookRecordByIdResponseDTOAssert.class);
     }
 
     public UpdateBookRecordByIdResponseDTOAssert hasTitle(String title){

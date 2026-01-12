@@ -13,7 +13,7 @@ public class GetBookRecordByIdResponseDTOAssert extends AbstractAssert<GetBookRe
     }
 
     public static GetBookRecordByIdResponseDTOAssert assertThat(GetBookRecordByIdResponseDTO bookRecord) {
-        return new  GetBookRecordByIdResponseDTOAssert(bookRecord, GetBookRecordByIdResponseDTOAssert.class);
+        return new GetBookRecordByIdResponseDTOAssert(bookRecord, GetBookRecordByIdResponseDTOAssert.class);
     }
 
     public GetBookRecordByIdResponseDTOAssert hasTitle(String title){

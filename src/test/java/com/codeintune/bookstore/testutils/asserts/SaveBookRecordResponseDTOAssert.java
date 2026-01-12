@@ -13,7 +13,7 @@ public class SaveBookRecordResponseDTOAssert extends AbstractAssert<SaveBookReco
     }
 
     public static SaveBookRecordResponseDTOAssert assertThat(SaveBookRecordResponseDTO bookRecord) {
-        return new  SaveBookRecordResponseDTOAssert(bookRecord, SaveBookRecordResponseDTOAssert.class);
+        return new SaveBookRecordResponseDTOAssert(bookRecord, SaveBookRecordResponseDTOAssert.class);
     }
 
     public SaveBookRecordResponseDTOAssert hasTitle(String title){
