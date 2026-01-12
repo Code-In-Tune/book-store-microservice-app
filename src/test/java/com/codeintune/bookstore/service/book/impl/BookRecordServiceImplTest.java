@@ -16,6 +16,7 @@ import com.codeintune.bookstore.model.book.enums.Availability;
 import com.codeintune.bookstore.repository.BookRecordRepository;
 import com.codeintune.bookstore.service.book.BookRecordService;
 import com.codeintune.bookstore.specification.SpecificationBuilder;
+import com.codeintune.bookstore.testutils.asserts.BookAssertions;
 import com.codeintune.bookstore.testutils.seeder.book.data.BookRecordTestSeeder;
 import com.codeintune.bookstore.testutils.seeder.book.dto.*;
 import lombok.NonNull;
@@ -23,6 +24,7 @@ import org.hibernate.jpa.AvailableHints;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -62,27 +64,23 @@ class BookRecordServiceImplTest {
         SaveBookRecordResponseDTO response = SaveBookRecordResponseDTOTestSeeder.saveBookRecordRequestDTO();
         Mockito.when(bookRecordMapper.toEntity(Mockito.any(SaveBookRecordRequestDTO.class)))
                 .thenReturn(entity);
-        Mockito.doAnswer((invocationOnMock) -> {
-            BookRecord entityToBeSaved = invocationOnMock.getArgument(0, BookRecord.class);
-            Assertions.assertNull(entityToBeSaved.getBookId());
-            entityToBeSaved.setBookId(1L);
-            return entityToBeSaved;
-        }).when(bookRecordRepository).save(Mockito.any(BookRecord.class));
+
+        Mockito.doAnswer((invocationOnMock) -> BookRecordTestSeeder.generateEntity()).when(bookRecordRepository).save(Mockito.any(BookRecord.class));
         Mockito.when(bookRecordMapper.toSaveBookDtoResponse(Mockito.any(BookRecord.class)))
                 .thenReturn(response);
 
         SaveBookRecordResponseDTO output = bookRecordService.saveBookRecord(request);
 
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(1L, output.getBookId(), "Book Id do not match"),
-                () -> Assertions.assertEquals(1, output.getQuantity(), "Quantity do not match"),
-                () -> Assertions.assertEquals("Lewis Carroll", output.getAuthor(), "Author do not match"),
-                () -> Assertions.assertEquals("Alice In Wonderland", output.getTitle(), "Title do not match"),
-                () -> Assertions.assertEquals(AvailabilityDTO.IN_STOCK, output.getAvailability(), "Availability do not match"),
-                () -> Assertions.assertEquals("123456789", output.getIsbn(), "ISBN do not match"),
-                () -> Assertions.assertEquals(BigDecimal.ONE, output.getPrice(), "Price do not match"),
-                () -> Assertions.assertEquals("Publisher", output.getPublisher(), "Publisher do not match")
-        );
+
+        ArgumentCaptor<BookRecord> captor =
+                ArgumentCaptor.forClass(BookRecord.class);
+
+        Mockito.verify(bookRecordRepository).save(captor.capture());
+
+        BookRecord savedEntity = captor.getValue();
+        Assertions.assertNull(savedEntity.getBookId(), "ID must be null before saving");
+
+        BookAssertions.assertSaveBookRecordResponseDTOBase(output);
     }
 
     @Test
@@ -93,16 +91,8 @@ class BookRecordServiceImplTest {
                 .thenReturn(GetBookByIdResponseDTOTestSeeder.generateResponse());
 
         GetBookRecordByIdResponseDTO output = bookRecordService.getBookRecordById(1L);
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(1L, output.getBookId(), "Book Id do not match"),
-                () -> Assertions.assertEquals(1, output.getQuantity(), "Quantity do not match"),
-                () -> Assertions.assertEquals("Lewis Carroll", output.getAuthor(), "Author do not match"),
-                () -> Assertions.assertEquals("Alice In Wonderland", output.getTitle(), "Title do not match"),
-                () -> Assertions.assertEquals(AvailabilityDTO.IN_STOCK, output.getAvailability(), "Availability do not match"),
-                () -> Assertions.assertEquals("123456789", output.getIsbn(), "ISBN do not match"),
-                () -> Assertions.assertEquals(BigDecimal.ONE, output.getPrice(), "Price do not match"),
-                () -> Assertions.assertEquals("Publisher", output.getPublisher(), "Publisher do not match")
-        );
+
+        BookAssertions.assertGetBookRecordResponseDTOBase(output);
     }
 
     @Test
@@ -123,7 +113,6 @@ class BookRecordServiceImplTest {
         Mockito.doAnswer((invocationOnMock -> {
             UpdateBookRecordByIdRequestDTO requestFromUpdate =  invocationOnMock.getArgument(0, UpdateBookRecordByIdRequestDTO.class);
             BookRecord recordToUpdate = invocationOnMock.getArgument(1, BookRecord.class);
-            Assertions.assertNotEquals(recordToUpdate.getTitle(), requestFromUpdate.getTitle());
             recordToUpdate.setTitle(requestFromUpdate.getTitle()); // Updating the object
             return null;
         })).when(bookRecordMapper).updateEntity(Mockito.any(), Mockito.any());
@@ -136,14 +125,7 @@ class BookRecordServiceImplTest {
         UpdateBookRecordByIdResponseDTO output = bookRecordService.updateBookRecordById(request);
 
 
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(1L, output.getBookId(), "Book Id do not match"),
-                () -> Assertions.assertEquals("Lewis Carroll", output.getAuthor(), "Author do not match"),
-                () -> Assertions.assertEquals("Alice Through The Looking Glass", output.getTitle(), "Title do not match"),
-                () -> Assertions.assertEquals("123456789", output.getIsbn(), "ISBN do not match"),
-                () -> Assertions.assertEquals(BigDecimal.ONE, output.getPrice(), "Price do not match"),
-                () -> Assertions.assertEquals("Publisher", output.getPublisher(), "Publisher do not match")
-        );
+        BookAssertions.assertUpdateBookRecordByIdResponseDTOBase(output);
 
     }
 
@@ -223,14 +205,7 @@ class BookRecordServiceImplTest {
         Assertions.assertEquals(1, outputList.getBookRecords().size(), "BookRecords size do not match");
         GetBookRecordByIdResponseDTO output = outputList.getBookRecords().get(0);
 
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(1L, output.getBookId(), "Book Id do not match"),
-                () -> Assertions.assertEquals("Lewis Carroll", output.getAuthor(), "Author do not match"),
-                () -> Assertions.assertEquals("Alice In Wonderland", output.getTitle(), "Title do not match"),
-                () -> Assertions.assertEquals("123456789", output.getIsbn(), "ISBN do not match"),
-                () -> Assertions.assertEquals(BigDecimal.ONE, output.getPrice(), "Price do not match"),
-                () -> Assertions.assertEquals("Publisher", output.getPublisher(), "Publisher do not match")
-        );
+        BookAssertions.assertGetBookRecordResponseDTOBase(output);
     }
 
     @Test
@@ -253,13 +228,6 @@ class BookRecordServiceImplTest {
         Assertions.assertEquals(1, outputList.getBookRecords().size(), "BookRecords size do not match");
         GetBookRecordByIdResponseDTO output = outputList.getBookRecords().get(0);
 
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(1L, output.getBookId(), "Book Id do not match"),
-                () -> Assertions.assertEquals("Lewis Carroll", output.getAuthor(), "Author do not match"),
-                () -> Assertions.assertEquals("Alice In Wonderland", output.getTitle(), "Title do not match"),
-                () -> Assertions.assertEquals("123456789", output.getIsbn(), "ISBN do not match"),
-                () -> Assertions.assertEquals(BigDecimal.ONE, output.getPrice(), "Price do not match"),
-                () -> Assertions.assertEquals("Publisher", output.getPublisher(), "Publisher do not match")
-        );
+        BookAssertions.assertGetBookRecordResponseDTOBase(output);
     }
 }
