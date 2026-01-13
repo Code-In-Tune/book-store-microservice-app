@@ -1,0 +1,39 @@
+name: Test and Coverage
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  test-and-coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Run tests with JaCoCo
+        run: mvn -B clean test
+
+      - name: Generate report with Jacoco
+        run: mvn clean jacoco:prepare-agent install jacoco:report
+
+      - name: Generate JaCoCo Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          jacoco-csv-file: target/site/jacoco/jacoco.csv
+          generate-branches-badge: true
+          fail-if-coverage-less-than: 0
+
+      - name: Upload JaCoCo badges
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-badges
+          path: .github/badges/

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.codeintune</groupId>
 	<artifactId>bookstore</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>bookstore</name>
 	<description>Bookstore microservice application</description>
 	<url/>
