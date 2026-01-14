@@ -1,7 +1,7 @@
-# Book Store
-## What it is
+# 📚 Book Store
+## ❓ What it is
 Book Store microservice in Spring Boot with PostgreSQL
-## Tech Stack
+## 🧬 Tech Stack
 Technologies used:
 * Spring Boot
 * Jakarta Validator
@@ -22,7 +22,7 @@ Technologies used:
 * Mockito
 * Testcontainers (for integration testing)
 * Webclient (only to wrap authentication call to keycloak)
-## Features
+## ✨ Features
 The following features are being provided by the microservice:
 * Add a book (POST)
 * Update a book (PUT)
@@ -33,15 +33,16 @@ The following features are being provided by the microservice:
 * Get all books according to a certain filter (POST)
 * Add a book sale (POST)
 * List all sales, paginated (GET)
-## Quick start
+## 🔥 Quick start
 In order to start the project, first run the file docker-compose-db.yml, then docker-compose-keycloak.yml.
 Then run the application. In order to access the endpoints you have to make a request to keycloak with the following credentials and get the access token:
 * username: admin; password: admin; (This grants read-view access)
 * username: user; password: user; (This grants only view privileges)
+
 For convenience, I've added a /auth endpoint which can be used to authenticate quickly once keycloak is started.
 You can use /swagger-ui.html and go the auth tab and make the call from there.
 The application runs on 8081, while keycloak run on 8080, localhost.
-## Testing
+## 🧪 Testing
 I've provided both unit tests and integration tests whenever needed.
 Here i provide also data to test the add book endpoint:
 1. Title: Oliver Twist
