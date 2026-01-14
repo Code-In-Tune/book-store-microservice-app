@@ -1,4 +1,5 @@
 # 📚 Book Store
+![Java Version](https://img.shields.io/badge/Java-17-blue)
 ## ❓ What it is
 Book Store microservice in Spring Boot with PostgreSQL
 ## 🧬 Tech Stack
@@ -51,5 +52,7 @@ Here i provide also data to test the add book endpoint:
 4. Price: 11.99
 5. Publisher: Zenith Velvet Ink Publishing
 6. ISBN: 9791070126875
+## 🔹 ER Diagram
+![ER](doc/db/book_store_er.png)
 
 Enjoy
